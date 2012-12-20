@@ -1,7 +1,7 @@
 MonoTouch.GSFancyText
 =====================
 
-This is a MonoTouch binding for [GSFancyText](https://github.com/hulu/GrannySmith/tree/master/GSFancyText) by Hulu.
+This is a MonoTouch binding for [GSFancyText](https://github.com/hulu/GrannySmith/tree/master/GSFancyText) by Hulu.  
 GSFancyText is a rich text drawing library for iOS.
 
 Example

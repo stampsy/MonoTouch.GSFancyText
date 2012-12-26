@@ -1,0 +1,9 @@
+//
+// Prefix header for all source files of the 'NativeLib' target in the 'NativeLib' project
+//
+
+#ifdef __OBJC__
+#import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
+#import <UIKit/UIKit.h>
+#endif

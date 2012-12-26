@@ -71,7 +71,6 @@
 		1125DD4A164BEE2A00FE636B = {
 			isa = PBXGroup;
 			children = (
-				37DF855616836F3C0008C40E /* CoreGraphics.framework */,
 				1125DD5A164BEE2A00FE636B /* GSFancyText */,
 				1125DD57164BEE2A00FE636B /* Frameworks */,
 				1125DD56164BEE2A00FE636B /* Products */,
@@ -89,6 +88,7 @@
 		1125DD57164BEE2A00FE636B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37DF855616836F3C0008C40E /* CoreGraphics.framework */,
 				1125DD79164BEE6800FE636B /* UIKit.framework */,
 				1125DD58164BEE2A00FE636B /* Foundation.framework */,
 			);

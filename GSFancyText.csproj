@@ -47,6 +47,5 @@
     <Compile Include="libGSFancyText.linkwith.cs">
       <DependentUpon>libGSFancyText.a</DependentUpon>
     </Compile>
-    <Compile Include="Extra.cs" />
   </ItemGroup>
 </Project>

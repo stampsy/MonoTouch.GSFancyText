@@ -143,7 +143,7 @@ namespace GrannySmith
         [Export ("initWithFrame:fancyText:")]
         IntPtr Constructor (RectangleF frame, GSFancyText fancyText);
         
-        [Export ("fancyText", ArgumentSemantic.Retain)]
+        [Export ("fancyText", ArgumentSemantic.Retain), NullAllowed]
         GSFancyText FancyText { get; set;  }
         
         [Export ("contentHeight")]

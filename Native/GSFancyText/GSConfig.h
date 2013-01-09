@@ -15,7 +15,7 @@
 
 
 /// Uncomment the following line if ARC (Automatic Reference Counting) is enabled. Comment it if ARC is not enabled.
-#define GS_ARC_ENABLED 1
+// #define GS_ARC_ENABLED 1
 
 /// Comment the following line if ARC is enabled but your deployment target is iOS 4.x.
 // #define GS_ARC_WEAK_REF_ENABLED 1

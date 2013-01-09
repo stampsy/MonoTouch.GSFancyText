@@ -18,13 +18,13 @@ namespace GrannySmith
 //      [Export ("initWithParsedStructure:")]
 //      IntPtr Constructor (GSMarkupNode structure);
         
-        [Export ("lambdaBlocks")]
+        [Export ("lambdaBlocks", ArgumentSemantic.Retain)]
         NSMutableDictionary LambdaBlocks { get; set;  }
         
-        [Export ("style")]
+        [Export ("style", ArgumentSemantic.Retain)]
         NSMutableDictionary Style { get; set;  }
         
-        [Export ("text")]
+        [Export ("text", ArgumentSemantic.Retain)]
         string Text { get; set;  }
         
         [Export ("width")]
@@ -143,7 +143,7 @@ namespace GrannySmith
         [Export ("initWithFrame:fancyText:")]
         IntPtr Constructor (RectangleF frame, GSFancyText fancyText);
         
-        [Export ("fancyText")]
+        [Export ("fancyText", ArgumentSemantic.Retain)]
         GSFancyText FancyText { get; set;  }
         
         [Export ("contentHeight")]

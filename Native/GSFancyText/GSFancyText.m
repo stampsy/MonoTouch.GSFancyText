@@ -1614,6 +1614,13 @@ static NSMutableDictionary* fontMemory_;
                 getSegmentAtIndexBlock(i);
                 getSegmentInfoWithWidthBlock();
                 updateLineTextHeightBlock();
+                
+                BOOL needTotalLength = (align==GSTextAlignCenter || align==GSTextAlignRight);
+                if (needTotalLength) {
+                    getSegmentInfoWithWidthBlock();
+                    w += segmentWidth;
+                }
+                
                 [widthForSegment addObject:[NSNumber numberWithFloat:segmentWidth]];
                 totalWidth += segmentWidth;
             }

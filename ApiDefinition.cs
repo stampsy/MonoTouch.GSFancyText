@@ -104,10 +104,13 @@ namespace GrannySmith
         
         [Export ("drawInRect:")]
         void Draw (RectangleF rect);
-        
+
+        [Export ("changeNodeToText:forID:")]
+        void ChangeAttribute (string name, NSObject value, GSFancyTextReferenceType type, [NullAllowed] string referenceName);
+
         [Export ("changeNodeToText:forID:")]
         void ChangeNodeToText (string text, string nodeId);
-        
+
         [Export ("changeNodeToStyledText:forID:")]
         void ChangeNodeToStyledText (string styledText, string nodeId);
         
@@ -116,7 +119,7 @@ namespace GrannySmith
         
         [Export ("removeID:")]
         void RemoveNode (string nodeId);
-        
+
 //      [Export ("changeAttribute:to:on:withName:")]
 //      void ChangeAttribute (string attribute, NSObject value, GSFancyTextReferenceType type, string name);
 //      
@@ -137,7 +140,7 @@ namespace GrannySmith
         [Export ("cleanStyleDict:")]
         void CleanStyleDict (NSMutableDictionary dict);     
     }
-    
+
     [BaseType (typeof (UIView))]
     interface GSFancyTextView {
         [Export ("initWithFrame:fancyText:")]

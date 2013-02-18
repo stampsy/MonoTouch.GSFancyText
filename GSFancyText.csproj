@@ -36,9 +36,6 @@
     <Reference Include="System" />
     <Reference Include="monotouch" />
   </ItemGroup>
-  <ItemGroup>
-    <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Xamarin.ObjcBinding.CSharp.targets" />
   <ItemGroup>
     <ObjcBindingNativeLibrary Include="libGSFancyText.a" />
@@ -48,5 +45,11 @@
       <DependentUpon>libGSFancyText.a</DependentUpon>
     </Compile>
     <Compile Include="Extra.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
   </ItemGroup>
 </Project>

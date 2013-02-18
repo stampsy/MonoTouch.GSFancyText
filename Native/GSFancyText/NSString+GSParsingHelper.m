@@ -159,8 +159,16 @@ const CGFloat ConservativeSpaceReservation = 1.f;
                 minLength = 0;
             }
             
+            NSCharacterSet *whitespace = [NSCharacterSet whitespaceCharacterSet];
+            BOOL scanBackForWhitespace = [currentLine rangeOfCharacterFromSet:whitespace].location != NSNotFound;
+            
             // take out characters one by one until the width is idealWidth
-            while (currentLine.length > minLength && [lineToCalcWidth sizeWithFont:font].width > idealWidth) {
+            while (currentLine.length > minLength
+                   && (
+                       [lineToCalcWidth sizeWithFont:font].width > idealWidth
+                       || (scanBackForWhitespace && ![whitespace characterIsMember: [currentLine characterAtIndex:(currentLine.length-1)]])
+                  )
+            ) {
                 [currentLine deleteCharactersInRange:NSMakeRange(currentLine.length-1, 1)];
                 lineToCalcWidth = (lines.count || !firstLineBlocked.length) ? currentLine : [NSString stringWithFormat:@"%@%@", firstLineBlocked, currentLine];
                 i--;

@@ -66,7 +66,7 @@ static int lineID_ = 1;
 
 /** Get a list of GSMarkupNode objects based on a class name or ID
  * @return a retained array. An emtpy array if there's no match.
- * @note call this after parsing
+ * @note call this after parsing 
  */
 - (NSArray*)newChangeListBasedOnType:(GSFancyTextReferenceType)type withName:(NSString*)name;
 
@@ -204,9 +204,9 @@ static int lineID_ = 1;
 }
 
 - (GSMarkupNode*)parseStructure {
-#ifdef GS_DEBUG_PERFORMANCE
+    #ifdef GS_DEBUG_PERFORMANCE
     NSDate* startTime = [NSDate date];
-#endif
+    #endif
     
     if (!text_ || !text_.length) {
         // in case the object is initialized with already parsed structure instead of markup text
@@ -216,25 +216,25 @@ static int lineID_ = 1;
     GSRelease(parsedTree_);
     parsedTree_ = [[self class] newParsedMarkupString:text_ withStyleDict:style_];
     
-#ifdef GS_DEBUG_PERFORMANCE
+    #ifdef GS_DEBUG_PERFORMANCE
     GSDebugLog(@"time to parse markup: %f", -[startTime timeIntervalSinceNow]);
-#endif
+    #endif
     
     return parsedTree_;
 }
 
 - (NSMutableArray*)generateLines {
     
-#ifdef GS_DEBUG_PERFORMANCE
+    #ifdef GS_DEBUG_PERFORMANCE
     NSDate* startTime = [NSDate date];
-#endif
+    #endif
     
     // step 1. parsing
     if (!parsedTree_) {
         [self parseStructure];
     }
     __block NSArray* segments_ = [parsedTree_ newDepthFirstOrderDataArray];
-    
+
     // step 2. line breaking
     
     if (!width_) {
@@ -304,7 +304,7 @@ static int lineID_ = 1;
                     CGFloat topMargin = 0.f;
                     CGFloat bottomMargin = 0.f;
                     if (currentLineMarginTopString) {
-                        topMargin = [currentLineMarginTopString possiblyPercentageNumberWithBase:currentLineHeight];
+                        topMargin = [currentLineMarginTopString possiblyPercentageNumberWithBase:currentLineHeight];   
                     }
                     if (currentLineMarginBottomString) {
                         bottomMargin = [currentLineMarginBottomString possiblyPercentageNumberWithBase:currentLineHeight];
@@ -333,7 +333,7 @@ static int lineID_ = 1;
                     GSRelease(segments_);
                     return NO;
                 }
-                [lines_ addObject: currentLine];
+                [lines_ addObject: currentLine];                
                 currentLineIDActualLineCount ++;
                 totalHeight = nextHeight;
                 if (maxHeight_ == totalHeight) {
@@ -415,7 +415,7 @@ static int lineID_ = 1;
             if (segmentLineHeightString) {
                 segmentHeight = [segmentLineHeightString possiblyPercentageNumberWithBase:segmentHeight];
             }
-            
+
             // conclude the previous line if it's too long
             if (currentLine.count && currentLineSpaceLeft<segmentWidth) {
                 contentWidth_ = width_;
@@ -458,7 +458,7 @@ static int lineID_ = 1;
                 segmentHeight = [segmentLineHeightString possiblyPercentageNumberWithBase:segmentHeight];
             }
             
-            // split the lines
+            // split the lines 
             // (the currentLineSpaceLeft might be altered by the insertLineBlock above)
             NSArray* segmentLines = [segmentText linesWithWidth:(width_-segmentMarginX) font:segmentFont firstLineWidth:currentLineSpaceLeft limitLineCount:segmentLineCount];
             
@@ -508,7 +508,7 @@ static int lineID_ = 1;
                     // for any unfinished line, calculate the width left for the current line
                     CGFloat widthUsed = [lineText sizeWithFont:segmentFont].width;
                     currentLineSpaceLeft = currentLineSpaceLeft - widthUsed;
-                    // this is the last line of this segment, and there are more than 1 line in this break,
+                    // this is the last line of this segment, and there are more than 1 line in this break, 
                     // remove the margin space
                     if (segmentLines.count>1 && currentLine.count==1) {
                         currentLineSpaceLeft = currentLineSpaceLeft - segmentMarginX;
@@ -531,9 +531,9 @@ static int lineID_ = 1;
     GSRelease(segments_);
     GSRelease(currentLine);
     
-#ifdef GS_DEBUG_PERFORMANCE
+    #ifdef GS_DEBUG_PERFORMANCE
     GSDebugLog(@"time to generate line: %f", -[startTime timeIntervalSinceNow]);
-#endif
+    #endif
     
     contentHeight_ = totalHeight;
     
@@ -552,7 +552,7 @@ typedef enum {
 } StyleSheetParseMode;
 
 + (NSMutableDictionary*)newParsedStyle: (NSString*)styleString {
-    
+
     NSMutableDictionary* cssDict = [[NSMutableDictionary alloc] initWithCapacity:GSFancyTextTypicalSize];
     
     // scanner and scan parameters
@@ -701,13 +701,13 @@ typedef enum {
                 mode = AdvancingToSemicolon;
                 currentValue = [NSString stringWithString: currentText]; // don't trim it if it's already quoted
                 lengthToSkip = scanTo.length;
-                //                [propertyList setObject: [[self class] parsedValue:currentValue forKey:currentAttribName] forKey:currentAttribName];
+//                [propertyList setObject: [[self class] parsedValue:currentValue forKey:currentAttribName] forKey:currentAttribName];
                 [[self class] parseValue:currentValue forKey:currentAttribName intoDictionary:propertyList];
                 break;
             case ParsingUnquotedValue:
                 mode = ParsingAttribName;
                 currentValue = GSTrim(currentText);
-                //                [propertyList setObject: [[self class] parsedValue:currentValue forKey:currentAttribName] forKey:currentAttribName];
+//                [propertyList setObject: [[self class] parsedValue:currentValue forKey:currentAttribName] forKey:currentAttribName];
                 [[self class] parseValue:currentValue forKey:currentAttribName intoDictionary:propertyList];
                 lengthToSkip = scanTo.length;
                 
@@ -741,7 +741,7 @@ typedef enum {
     
     NSMutableDictionary* idMap = [[NSMutableDictionary alloc] initWithCapacity:GSFancyTextTypicalSize];  // id must be unique, so the value is just an HUMarkupString node pointer
     NSMutableDictionary* classesMap = [[NSMutableDictionary alloc] initWithCapacity:GSFancyTextTypicalSize]; // classes won't be unique, so the value is an array
-    // the two maps will be added to the data of root node eventually
+    // the two maps will be added to the data of root node eventually 
     
     // 2 stacks were used to help maintain the containers and styles
     NSMutableArray* tagStack = [[NSMutableArray alloc] initWithCapacity:GSFancyTextTypicalSize];
@@ -764,7 +764,7 @@ typedef enum {
     
     // set the default font here
     [[self class] createFontKeyForDict: defaultStyle];
-    
+
     GSMarkupNode* currentSegment;
     
     // Let the parsing begin!
@@ -801,7 +801,7 @@ typedef enum {
         }
         
         NSMutableDictionary* stylesInTag = [[self class] newStyleFromCurrentTagInScanner:scanner withStyleDict:styleDict];
-        
+
         // whether it's a lambda tag or style tag, there is going to be a tree node to insert
         GSMarkupNode* nodeToAdd = [[GSMarkupNode alloc] init];
         
@@ -809,7 +809,7 @@ typedef enum {
             
             // handling several special keys: elementName, isClosingTag, ID, class
             NSString* elementName = [stylesInTag objectForKey: GSFancyTextElementNameKey];
-            
+
             BOOL isClosingTag = [[stylesInTag objectForKey:GSFancyTextTagClosingKey] boolValue];
             [stylesInTag removeObjectForKey:GSFancyTextTagClosingKey];
             
@@ -862,7 +862,7 @@ typedef enum {
                 [[containerStack lastObject] appendChild: nodeToAdd];
                 [containerStack addObject: nodeToAdd];
             }
-            
+
         }
         GSRelease(nodeToAdd);
         GSRelease(stylesInTag);
@@ -882,7 +882,7 @@ typedef enum {
     
     GSRelease(idMap);
     GSRelease(classesMap);
-    
+        
     return resultRoot;
 }
 
@@ -1008,7 +1008,7 @@ typedef enum {
                 NSString* content = [scanner string];
                 int nextCharLocation;
                 NSString* next = [content firstNonWhitespaceCharacterSince:scanner.scanLocation+1 foundAt:&nextCharLocation];
-                
+
                 if (!next.length) {
                     scanner.scanLocation = content.length;
                     return style;
@@ -1058,7 +1058,7 @@ typedef enum {
                             [style setObject:GSTrim(currentText) forKey:GSFancyTextIDKey];
                         }
                         else {
-                            //                            [style setObject:[[self class] parsedValue:GSTrim(currentText) forKey:attribName] forKey: attribName];
+//                            [style setObject:[[self class] parsedValue:GSTrim(currentText) forKey:attribName] forKey: attribName];
                             [[self class] parseValue:GSTrim(currentText) forKey:attribName intoDictionary:style];
                         }
                     }
@@ -1121,7 +1121,28 @@ typedef enum {
         
         [scanner setScanLocation:1]; // bypass '#' character
         [scanner scanHexInt:&result];
+        if (value.length < 7) { // short form (#FFF)
+            result = (result & 0xF) + ((result & 0xF) << 4) +
+                    ((result & 0xF0) << 4)  + ((result & 0xF0) << 8) +
+                    ((result & 0xF00) << 8) + ((result & 0xF00) << 12);
+        }
         color = GSRgb(result);
+    }
+    else if ([value rangeOfString:GSFancyTextRGBAValue].location != NSNotFound) {
+        value = [value stringByReplacingOccurrencesOfString:GSFancyTextRGBAValue withString:@""];
+        value = [value stringByReplacingOccurrencesOfString:@"(" withString:@""];
+        value = [value stringByReplacingOccurrencesOfString:@")" withString:@""];
+        NSArray* colors = [value componentsSeparatedByString:@","];
+        if (colors.count == 4) {
+            CGFloat r = [(NSString*)[colors objectAtIndex:0] floatValue];
+            CGFloat g = [(NSString*)[colors objectAtIndex:1] floatValue];
+            CGFloat b = [(NSString*)[colors objectAtIndex:2] floatValue];
+            CGFloat a = [(NSString*)[colors objectAtIndex:3] floatValue];
+            
+            if (r<=255.f && r>=0.f && g<=255.f && g>=0.f && b<=255.f && b>=0.f && a<=1.f && a>=0.f) {
+                color = [UIColor colorWithRed:r/255.f green:g/255.f blue:b/255.f alpha:a];
+            }
+        }
     }
     else if ([value rangeOfString:GSFancyTextRGBValue].location != NSNotFound) {
         value = [value stringByReplacingOccurrencesOfString:GSFancyTextRGBValue withString:@""];
@@ -1152,9 +1173,9 @@ typedef enum {
         return color;
     }
     else {
-#ifdef GS_DEBUG_MARKUP
+        #ifdef GS_DEBUG_MARKUP
         GSDebugLog(@"\n[Warning]\nColor parsing error. \"%@\" is not recognized.\n\n", value_);
-#endif
+        #endif
         return nil;
     }
 }
@@ -1179,9 +1200,9 @@ typedef enum {
         return textAlignNumber;
     }
     else {
-#ifdef GS_DEBUG_MARKUP
+        #ifdef GS_DEBUG_MARKUP
         GSDebugLog(@"\n[Warning]\nText alignment parsing error. \"%@\" is not recognized.\n\n", value);
-#endif
+        #endif
         return nil;
     }
 }
@@ -1208,9 +1229,9 @@ typedef enum {
         return result;
     }
     else {
-#ifdef GS_DEBUG_MARKUP
+        #ifdef GS_DEBUG_MARKUP
         GSDebugLog(@"\n[Warning]\nVertical alignment parsing error. \"%@\" is not recognized.\n\n", value);
-#endif
+        #endif
         return nil;
     }
 }
@@ -1236,16 +1257,16 @@ typedef enum {
         return mode;
     }
     else {
-#ifdef GS_DEBUG_MARKUP
+        #ifdef GS_DEBUG_MARKUP
         GSDebugLog(@"\n[Warning]\nTruncation mode parsing error. \"%@\" is not recognized.\n\n", value);
-#endif
+        #endif
         return nil;
     }
 }
 
 
 static NSMutableDictionary* fontMemory_;
-+ (UIFont*)fontWithName:(NSString*)name size:(CGFloat)size weight:(NSString*)weight style:(NSString*)style {
++ (UIFont*)fontWithName:(NSString*)name size:(CGFloat)size weight:(NSString*)weight style:(NSString*)style {    
     
     if (!fontMemory_) {
         fontMemory_ = [[NSMutableDictionary alloc] initWithCapacity:GSFancyTextTypicalSize];
@@ -1259,7 +1280,7 @@ static NSMutableDictionary* fontMemory_;
     if (!size) {
         size = [UIFont systemFontSize];
     }
-    
+        
     NSString* familyName;
     NSArray* fontFamilies = [UIFont familyNames];
     
@@ -1287,11 +1308,11 @@ static NSMutableDictionary* fontMemory_;
         for (NSString* fontName in availableFontNames) {
             if (
                 (bold == ([fontName rangeOfString:@"bold" options:NSCaseInsensitiveSearch].location != NSNotFound ||
-                          [fontName rangeOfString:@"medium" options:NSCaseInsensitiveSearch].location != NSNotFound ||
+                          [fontName rangeOfString:@"medium" options:NSCaseInsensitiveSearch].location != NSNotFound || 
                           [fontName rangeOfString:@"w6" options:NSCaseInsensitiveSearch].location != NSNotFound)
                  ) &&
                 (italic == ([fontName rangeOfString:@"italic" options:NSCaseInsensitiveSearch].location != NSNotFound ||
-                            [fontName rangeOfString:@"oblique" options:NSCaseInsensitiveSearch].location != NSNotFound)
+                            [fontName rangeOfString:@"oblique" options:NSCaseInsensitiveSearch].location != NSNotFound) 
                  )
                 ) {
                 realFontName = fontName;
@@ -1316,10 +1337,10 @@ static NSMutableDictionary* fontMemory_;
     [dict setObject:finalFont forKey:GSFancyTextFontKey];
     
     // keep these individual keys because we might need to change one of them later and regenerate the font
-    //    [dict removeObjectForKey: GSFancyTextFontNameKey];
-    //    [dict removeObjectForKey: GSFancyTextFontSizeKey];
-    //    [dict removeObjectForKey: GSFancyTextFontWeightKey];
-    //    [dict removeObjectForKey: GSFancyTextFontStyleKey];
+//    [dict removeObjectForKey: GSFancyTextFontNameKey];
+//    [dict removeObjectForKey: GSFancyTextFontSizeKey];
+//    [dict removeObjectForKey: GSFancyTextFontWeightKey];
+//    [dict removeObjectForKey: GSFancyTextFontStyleKey];
 }
 
 + (NSString*)availableFonts {
@@ -1473,9 +1494,9 @@ static NSMutableDictionary* fontMemory_;
 
 - (void)drawInRect:(CGRect)rect {
     
-#ifdef GS_DEBUG_PERFORMANCE
+    #ifdef GS_DEBUG_PERFORMANCE
     NSDate* startDraw = [NSDate date];
-#endif
+    #endif
     
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     
@@ -1593,13 +1614,6 @@ static NSMutableDictionary* fontMemory_;
                 getSegmentAtIndexBlock(i);
                 getSegmentInfoWithWidthBlock();
                 updateLineTextHeightBlock();
-                
-                BOOL needTotalLength = (align==GSTextAlignCenter || align==GSTextAlignRight);
-                if (needTotalLength) {
-                    getSegmentInfoWithWidthBlock();
-                    w += segmentWidth;
-                }
-                
                 [widthForSegment addObject:[NSNumber numberWithFloat:segmentWidth]];
                 totalWidth += segmentWidth;
             }
@@ -1693,7 +1707,7 @@ static NSMutableDictionary* fontMemory_;
                 }
             }
             
-            // update y based on top margin
+            // update y based on top margin 
             if (lineID != previousLineID) {
                 // it's not for every line
                 y += lineTopMargin;
@@ -1731,11 +1745,11 @@ static NSMutableDictionary* fontMemory_;
                     CGRect rect = GSRectMakeRounded(x, actualY, lwidth, lheight);
                     drawingBlock(rect);
                 }
-#ifdef GS_DEBUG_MARKUP
+                #ifdef GS_DEBUG_MARKUP
                 else {
                     GSDebugLog(@"\n[Warning]\nBlock %@... undefined. A blank space will be created.\n\n", lambdaID);
                 }
-#endif
+                #endif
             }
             else {
                 // get color
@@ -1773,9 +1787,9 @@ static NSMutableDictionary* fontMemory_;
     
     contentHeight_ = y - rect.origin.y;
     
-#ifdef GS_DEBUG_PERFORMANCE
+    #ifdef GS_DEBUG_PERFORMANCE
     GSDebugLog(@"drawing time: %f", -[startDraw timeIntervalSinceNow]);
-#endif
+    #endif
     
 }
 
@@ -1861,7 +1875,7 @@ static NSMutableDictionary* fontMemory_;
 }
 
 + (void)cleanStyleDict:(NSMutableDictionary*)dict {
-    
+
     if (![dict objectForKey:GSFancyTextLineIDKey]) {
         
         NSArray* attribsForPOnly = [[NSArray alloc] initWithObjects:GSFancyTextTextAlignKey, GSFancyTextLineCountKey, GSFancyTextMarginTop, GSFancyTextMarginBottom, GSFancyTextMarginLeft, GSFancyTextMarginRight, nil];
@@ -1910,7 +1924,7 @@ static NSMutableDictionary* fontMemory_;
     [newlambdaBlocks setValuesForKeysWithDictionary:self.lambdaBlocks];
     newFancyText.lambdaBlocks = newlambdaBlocks;
     GSRelease(newlambdaBlocks);
-    
+ 
     return newFancyText;
 }
 

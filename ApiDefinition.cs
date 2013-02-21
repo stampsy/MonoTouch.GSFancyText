@@ -10,7 +10,7 @@ namespace GrannySmith
     [BaseType (typeof (NSObject))]
     interface GSFancyText {     
         [Export ("initWithMarkupText:styleDict:width:maxHeight:")]
-        IntPtr Constructor (string text, NSMutableDictionary styleDict, float width, float maxHeight);
+        IntPtr Constructor (string text, [NullAllowed] NSMutableDictionary styleDict, float width, float maxHeight);
         
         [Export ("initWithMarkupText:")]
         IntPtr Constructor (string text);
@@ -104,10 +104,22 @@ namespace GrannySmith
         
         [Export ("drawInRect:")]
         void Draw (RectangleF rect);
-        
+
+        [Export ("changeAttribute:to:on:withName:")]
+        void ChangeAttribute (string name, NSObject value, GSFancyTextReferenceType type, [NullAllowed] string referenceName);
+
+        [Export ("addStyles:on:withName:")]
+        void AddStyles (NSMutableDictionary styles, GSFancyTextReferenceType type, [NullAllowed] string name);
+
+        [Export ("applyClass:on:withName:")]
+        void ApplyClass (string className, GSFancyTextReferenceType type, [NullAllowed] string name);
+
+        [Export ("changeStylesToClass:on:withName:")]
+        void ChangeStylesToClass (string className, GSFancyTextReferenceType type, [NullAllowed] string name);
+
         [Export ("changeNodeToText:forID:")]
         void ChangeNodeToText (string text, string nodeId);
-        
+
         [Export ("changeNodeToStyledText:forID:")]
         void ChangeNodeToStyledText (string styledText, string nodeId);
         
@@ -116,19 +128,7 @@ namespace GrannySmith
         
         [Export ("removeID:")]
         void RemoveNode (string nodeId);
-        
-//      [Export ("changeAttribute:to:on:withName:")]
-//      void ChangeAttribute (string attribute, NSObject value, GSFancyTextReferenceType type, string name);
-//      
-//      [Export ("addStyles:on:withName:")]
-//      void AddStyles (NSMutableDictionary styles, GSFancyTextReferenceType type, string name);
-//      
-//      [Export ("applyClass:on:withName:")]
-//      void ApplyClass (string className, GSFancyTextReferenceType type, string name);
-//      
-//      [Export ("changeStylesToClass:on:withName:")]
-//      void ChangeStylesToClass (string className, GSFancyTextReferenceType type, string name);
-        
+
         [Static]
         [Export ("addObject:intoDict:underKey:")]
         void AddObject (NSObject o, NSMutableDictionary dict, string key);
@@ -137,13 +137,13 @@ namespace GrannySmith
         [Export ("cleanStyleDict:")]
         void CleanStyleDict (NSMutableDictionary dict);     
     }
-    
+
     [BaseType (typeof (UIView))]
     interface GSFancyTextView {
         [Export ("initWithFrame:fancyText:")]
         IntPtr Constructor (RectangleF frame, GSFancyText fancyText);
         
-        [Export ("fancyText", ArgumentSemantic.Retain)]
+        [Export ("fancyText", ArgumentSemantic.Retain), NullAllowed]
         GSFancyText FancyText { get; set;  }
         
         [Export ("contentHeight")]

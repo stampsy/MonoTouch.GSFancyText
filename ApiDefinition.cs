@@ -15,53 +15,53 @@ namespace GrannySmith
         [Export ("initWithMarkupText:")]
         IntPtr Constructor (string text);
         
-//      [Export ("initWithParsedStructure:")]
-//      IntPtr Constructor (GSMarkupNode structure);
+        [Export ("initWithParsedStructure:")]
+        IntPtr Constructor (GSMarkupNode structure);
         
         [Export ("lambdaBlocks", ArgumentSemantic.Retain)]
-        NSMutableDictionary LambdaBlocks { get; set;  }
+        NSMutableDictionary LambdaBlocks { get; set; }
         
         [Export ("style", ArgumentSemantic.Retain)]
-        NSMutableDictionary Style { get; set;  }
+        NSMutableDictionary Style { get; set; }
         
         [Export ("text", ArgumentSemantic.Retain)]
-        string Text { get; set;  }
+        string Text { get; set; }
         
         [Export ("width")]
-        float Width { get; set;  }
+        float Width { get; set; }
         
         [Export ("maxHeight")]
-        float MaxHeight { get; set;  }
+        float MaxHeight { get; set; }
         
         [Export ("appendStyleSheet:")]
         void AppendStyleSheet (string newStyleSheet);
 
-//      [Export ("parseStructure")]
-//      GSMarkupNode ParseStructure ();
-//      
-//      [Export ("parsedResultTree")]
-//      GSMarkupNode ParsedResultTree ();
+        [Export ("parseStructure")]
+        GSMarkupNode ParseStructure ();
+      
+        [Export ("parsedResultTree")]
+        GSMarkupNode ParsedResultTree ();
         
         [Export ("generateLines")]
         NSMutableArray GenerateLines ();
         
         [Export ("lines")]
-        NSMutableArray Lines ();
+        NSMutableArray Lines { get; }
         
         [Export ("pureText")]
         string PureText ();
         
         [Export ("contentHeight")]
-        float ContentHeight ();
+        float ContentHeight { get; }
         
         [Export ("contentWidth")]
-        float ContentWidth ();
+        float ContentWidth { get; }
         
         [Export ("defineLambdaID:withBlock:")]
         void DefineLambda (string lambdaID, Action<RectangleF> drawingBlock);
         
-//      [Export ("nodeWithID:")]
-//      GSMarkupNode NodeWithID (string nodeID);
+        [Export ("nodeWithID:")]
+        GSMarkupNode NodeWithID (string nodeID);
         
         [Export ("nodesWithClass:")]
         NSArray NodesWithClass (string className);
@@ -82,13 +82,13 @@ namespace GrannySmith
         [Export ("newParsedStyle:")]
         NSMutableDictionary NewParsedStyle (string style);
         
-//      [Static]
-//      [Export ("parsedMarkupString:withStyleDict:")]
-//      GSMarkupNode ParsedMarkupString (string markup, NSDictionary styleDict);
-//      
-//      [Static]
-//      [Export ("newParsedMarkupString:withStyleDict:")]
-//      GSMarkupNode NewParsedMarkupString (string markup, NSDictionary styleDict);
+        [Static]
+        [Export ("parsedMarkupString:withStyleDict:")]
+        GSMarkupNode ParsedMarkupString (string markup, NSDictionary styleDict);
+
+        [Static]
+        [Export ("newParsedMarkupString:withStyleDict:")]
+        GSMarkupNode NewParsedMarkupString (string markup, NSDictionary styleDict);
         
         [Static]
         [Export ("fontWithName:size:weight:style:")]
@@ -166,6 +166,60 @@ namespace GrannySmith
         
         [Export ("updateAccessibilityLabel")]
         void UpdateAccessibilityLabel ();
+    }
+
+    [BaseType (typeof (NSObject))]
+    interface GSMarkupNode {
+        [Export ("data", ArgumentSemantic.Retain)]
+        NSMutableDictionary Data { get; set;  }
+        
+        [Export ("children", ArgumentSemantic.Retain)]
+        NSMutableArray Children { get; set;  }
+        
+        [Export ("isContainer")]
+        bool IsContainer { get; set;  }
+        
+        [Export ("IDMap", ArgumentSemantic.Retain)]
+        NSMutableDictionary IDMap { get; set;  }
+        
+        [Export ("classesMap", ArgumentSemantic.Retain)]
+        NSMutableDictionary ClassesMap { get; set;  }
+        
+        [Export ("parent")]
+        GSMarkupNode Parent { get; set;  }
+        
+        [Export ("appendChild:")]
+        void AppendChild (GSMarkupNode node);
+        
+        [Export ("appendSubtree:underNode:")]
+        void AppendSubtree (GSMarkupNode subtreeRoot, GSMarkupNode node);
+        
+        [Export ("newDepthFirstOrderDataArray")]
+        NSArray NewDepthFirstOrderDataArray ();
+        
+        [Export ("childNodeWithID:")]
+        GSMarkupNode ChildNode (string nodeID);
+        
+        [Export ("childrenNodesWithClassName:")]
+        NSArray ChildrenNodes (string className);
+        
+        [Export ("firstChild")]
+        GSMarkupNode FirstChild ();
+        
+        [Export ("cutFromParent")]
+        void CutFromParent ();
+        
+        [Export ("dismissAllChildren")]
+        void DismissAllChildren ();
+        
+        [Export ("resetChildToText:")]
+        void ResetChildToText (string text);
+        
+        [Export ("applyAndSpreadStyles:removeOldStyles:")]
+        void ApplyAndSpreadStyles (NSMutableDictionary styles, bool removeOldStyles);
+        
+        [Export ("displayTree")]
+        string DisplayTree ();
     }
 }
 

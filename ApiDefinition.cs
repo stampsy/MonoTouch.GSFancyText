@@ -146,13 +146,13 @@ namespace GrannySmith
         [Export ("fancyText", ArgumentSemantic.Retain), NullAllowed]
         GSFancyText FancyText { get; set;  }
         
-        [Export ("contentHeight")]
+        [Export ("contentHeight", ArgumentSemantic.Assign)]
         float ContentHeight { get;  }
         
-        [Export ("matchFrameHeightToContent")]
+        [Export ("matchFrameHeightToContent", ArgumentSemantic.Assign)]
         bool MatchFrameHeightToContent { get; set;  }
         
-        [Export ("matchFrameWidthToContent")]
+        [Export ("matchFrameWidthToContent", ArgumentSemantic.Assign)]
         bool MatchFrameWidthToContent { get; set;  }
         
         [Export ("updateDisplay")]

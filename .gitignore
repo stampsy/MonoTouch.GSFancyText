@@ -1,3 +1,4 @@
+src/*.sln
 # Xcode
 .DS_Store
 *.swp
